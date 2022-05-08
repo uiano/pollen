@@ -1,0 +1,32 @@
+#cloud-config
+write_files:
+- path: /etc/sudoers.d/00-root-ikt-stack
+  owner: root:root
+  permissions: '0600'
+  append: False
+  content: |
+    # Added by IKT-STACK Deployment Script
+    {SUDOERS}
+- path: /etc/pam.d/common-session
+  content: |
+    session optional        pam_mkhomedir.so skel=/etc/skel/ umask=0077
+  owner: root:root
+  permissions: '0600'
+  append: True
+- path: /etc/sssd/sssd.conf
+  owner: root:root
+  permissions: '0600'
+  append: False
+  content: |
+    # Added by IKT-STACK Deployment Script\n
+    {SSSD_CONF}
+ssh_pwauth: true
+manage_etc_hosts: true
+packages:
+  - sssd
+  - libpam-sss
+  - libnss-sss
+runcmd:
+  - systemctl enable sssd
+  - systemctl start sssd
+final_message: "Deployed Ubuntu machine in $uptime ($timestamp)\n"

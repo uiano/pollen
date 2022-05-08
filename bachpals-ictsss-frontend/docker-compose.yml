@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: Frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_PATH=http://ikt-stack.internal.uia.no/api/v1
+        - REACT_APP_AUTH_PATH=http://ikt-stack.internal.uia.no/oauth2
+    tty: true
+    stdin_open: true
+    ports:
+      - "80:80"
+    volumes:
+      - "./:/app/src"
+      - ./nginx.conf:/etc/nginx/nginx.conf

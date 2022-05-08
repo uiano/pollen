@@ -1,0 +1,20 @@
+  _    _ _
+ | |  | (_)
+ | |  | |_  __ _   _ __   ___
+ | |  | | |/ _` | | '_ \ / _ \
+ | |__| | | (_| |_| | | | (_) |
+  \____/|_|\__,_(_)_| |_|\___/
+====================================
+# Frequently Asked Questions.
+Q: Why can't I install this package.
+A: You might need to update the repo lists before installing the package.
+It can be done with either apt(Ubuntu/Debian) or yum(centos).
+
+Q: How can I access the VM outside of eduroam.
+A: You will have to use eduvpn to access it from home.
+More info here, https://www.uia.no/student/uia-hjelp/tilkobling-mot-uia-vpn
+If you use linux, https://gist.github.com/skandix/8ebdb825490f451aa4969cefcadfd3b7
+====================================
+# Experiencing problems with the VM?
+Please tell us your VM IP along with the problem you are having,
+and we'll try to help you as fast as possible.

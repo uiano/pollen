@@ -1,0 +1,994 @@
+basePath: /api/v1
+definitions:
+  database.Admin:
+    properties:
+      name:
+        type: string
+      userId:
+        type: string
+    type: object
+  database.Images:
+    properties:
+      id:
+        type: string
+      imageConfig:
+        type: string
+      imageDescription:
+        type: string
+      imageDisplayName:
+        type: string
+      imageId:
+        type: string
+      imageName:
+        type: string
+      imageReadRootPassword:
+        type: boolean
+      published:
+        type: string
+    type: object
+  database.VirtualMachine:
+    properties:
+      created:
+        type: string
+      groupMembers:
+        items:
+          type: string
+        type: array
+      imageDisplayName:
+        type: string
+      imageReadRootPassword:
+        type: boolean
+      serverId:
+        type: string
+      serverImage:
+        type: string
+      serverIp:
+        type: string
+      serverName:
+        type: string
+      serverStatus:
+        type: string
+      userId:
+        type: string
+    type: object
+  v1.AddImageStruct:
+    properties:
+      image_config:
+        type: string
+      image_description:
+        type: string
+      image_display_name:
+        type: string
+      image_id:
+        type: string
+      image_name:
+        type: string
+      image_read_root_password:
+        type: boolean
+      published:
+        type: string
+    type: object
+  v1.ImageIdStruct:
+    properties:
+      id:
+        type: string
+    type: object
+  v1.PublishedImagesStruct:
+    properties:
+      imageDisplayName:
+        type: string
+      imageId:
+        type: string
+    type: object
+  v1.RequestBodyAdminCreate:
+    properties:
+      name:
+        type: string
+      user_id:
+        type: string
+    type: object
+  v1.RequestBodyAdminUpdate:
+    properties:
+      name:
+        type: string
+      updated_id:
+        type: string
+      user_id:
+        type: string
+    type: object
+  v1.RequestBodyUserId:
+    properties:
+      user_id:
+        type: string
+    type: object
+  v1.RequestBodyVmOrder:
+    properties:
+      group_name:
+        type: string
+      server_image:
+        type: string
+      server_name:
+        type: string
+      users:
+        items:
+          type: string
+        type: array
+    type: object
+  v1.RequestBodyVmOrderAll:
+    properties:
+      course_code:
+        type: string
+      everyone:
+        type: string
+      group_name:
+        type: string
+      include_ta:
+        type: string
+      include_teacher:
+        type: string
+      server_image:
+        type: string
+      server_name:
+        type: string
+      users:
+        items:
+          type: string
+        type: array
+    type: object
+  v1.UpdateImageStruct:
+    properties:
+      id:
+        type: string
+      image_config:
+        type: string
+      image_description:
+        type: string
+      image_display_name:
+        type: string
+      image_id:
+        type: string
+      image_name:
+        type: string
+      image_read_root_password:
+        type: boolean
+      published:
+        type: string
+    type: object
+host: localhost:3001
+info:
+  contact:
+    email: <TBD>
+    name: ICTSSS Support
+  description: This is the backend to the ICTSSS service.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: ICT-Stack Self-Service API
+  version: "1.0"
+paths:
+  /admin/:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an admin from DB
+      parameters:
+      - description: Request Body
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/v1.RequestBodyUserId'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/database.Admin'
+              type: array
+            type: array
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Deletes an admin
+      tags:
+      - admin
+    get:
+      consumes:
+      - application/json
+      description: Fetches all admin users from DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/database.Admin'
+              type: array
+            type: array
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Fetches all admin users
+      tags:
+      - admin
+    post:
+      consumes:
+      - application/json
+      description: Adds a new admin user to DB
+      parameters:
+      - description: Request Body
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/v1.RequestBodyAdminCreate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/database.Admin'
+              type: array
+            type: array
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Adds a new admin
+      tags:
+      - admin
+    put:
+      consumes:
+      - application/json
+      description: Updates an admin user in DB
+      parameters:
+      - description: Request Body
+        in: body
+        name: requestBody
+        required: true
+        schema:
+          $ref: '#/definitions/v1.RequestBodyAdminUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/database.Admin'
+              type: array
+            type: array
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Updates an admin
+      tags:
+      - admin
+  /admin/:id:
+    get:
+      consumes:
+      - application/json
+      description: Fetches an admin user from the DB by id
+      parameters:
+      - description: Admin ID
+        in: path
+        name: adminId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.Admin'
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Fetches an admin user
+      tags:
+      - admin
+  /courses/:
+    get:
+      consumes:
+      - application/json
+      description: Fetches a course or an array of courses from the Canvas API
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Fetches courses from Canvas
+      tags:
+      - courses
+  /courses/:id/groups:
+    get:
+      consumes:
+      - application/json
+      description: Fetches the groups associated with a course in Canvas
+      parameters:
+      - description: Course ID
+        in: path
+        name: courseId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Fetches groups from course
+      tags:
+      - courses
+  /courses/:id/users:
+    get:
+      consumes:
+      - application/json
+      description: Fetches the students associated with a course in Canvas
+      parameters:
+      - description: Course ID
+        in: path
+        name: courseId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Fetches students from course
+      tags:
+      - courses
+  /courses/groups/:id/users:
+    get:
+      consumes:
+      - application/json
+      description: Fetches the students associated with a group in a Canvas course
+      parameters:
+      - description: Group ID
+        in: path
+        name: groupId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Fetches students in group
+      tags:
+      - courses
+  /image/:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an image from the service
+      parameters:
+      - description: Request Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ImageIdStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Images'
+            type: array
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Deletes an image
+      tags:
+      - image
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of images that can be used by admins
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Images'
+            type: array
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Retrieve list of images
+      tags:
+      - image
+    post:
+      consumes:
+      - application/json
+      description: Adds a new image for use in the service
+      parameters:
+      - description: Request Body
+        in: body
+        name: image
+        required: true
+        schema:
+          $ref: '#/definitions/v1.AddImageStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Images'
+            type: array
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Add a new image
+      tags:
+      - image
+    put:
+      consumes:
+      - application/json
+      description: Handles the updates on an image
+      parameters:
+      - description: Request Body
+        in: body
+        name: image
+        required: true
+        schema:
+          $ref: '#/definitions/v1.UpdateImageStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.Images'
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Updates an image
+      tags:
+      - image
+  /image/:id:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a specific image
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "501":
+          description: Not Implemented
+      summary: Retrieves an image
+      tags:
+      - image
+  /image/config:
+    get:
+      consumes:
+      - application/json
+      description: Fetches config files from hard drive
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Fetches config files
+      tags:
+      - image
+  /image/published:
+    get:
+      consumes:
+      - application/json
+      description: Fetches images marked as published from DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/v1.PublishedImagesStruct'
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: Fetches published images
+      tags:
+      - image
+  /image/server:
+    get:
+      consumes:
+      - application/json
+      description: Fetches images from OpenStack
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Images'
+            type: array
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+      summary: Fetches images
+      tags:
+      - image
+  /oauth2/logout:
+    get:
+      consumes:
+      - application/json
+      description: Handler for a users logout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Handles Logout
+      tags:
+      - oauth2
+  /oauth2/provider:
+    get:
+      consumes:
+      - application/json
+      description: Handler for authenticating the login of a user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Handles Login
+      tags:
+      - oauth2
+  /oauth2/redirect:
+    get:
+      consumes:
+      - application/json
+      description: Handler for the redirecting of a user after a login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Handles Redirect
+      tags:
+      - oauth2
+  /oauth2/userdata:
+    post:
+      consumes:
+      - application/json
+      description: Generates a console for a VM
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Generates a console
+      tags:
+      - oauth2
+  /vms/:
+    get:
+      consumes:
+      - application/json
+      description: Gets all VMs assosciated with a user ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.VirtualMachine'
+            type: array
+      summary: Retrieves list of users VMs from DB
+      tags:
+      - vms
+  /vms/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes the VM both in OpenStack and in DB
+      parameters:
+      - description: Server ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.VirtualMachine'
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Deletes a VM
+      tags:
+      - vms
+  /vms/:id/console:
+    get:
+      consumes:
+      - application/json
+      description: Generates a console for a VM
+      parameters:
+      - description: Server ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Generates a console
+      tags:
+      - vms
+  /vms/:id/password:
+    get:
+      consumes:
+      - application/json
+      description: Fetches the password for a VM
+      parameters:
+      - description: Server ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Fetches VM password
+      tags:
+      - vms
+  /vms/:id/reboot:
+    post:
+      consumes:
+      - application/json
+      description: Turns a VM off and on again.
+      parameters:
+      - description: Server ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.VirtualMachine'
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Reboots a VM
+      tags:
+      - vms
+  /vms/:id/respawn:
+    post:
+      consumes:
+      - application/json
+      description: Deletes a VM and recreates it with the same parameters.
+      parameters:
+      - description: Request Body
+        in: body
+        name: requestStruct
+        required: true
+        schema:
+          $ref: '#/definitions/v1.RequestBodyVmOrder'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.VirtualMachine'
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Delete and recreate a VM
+      tags:
+      - vms
+  /vms/:id/start:
+    post:
+      consumes:
+      - application/json
+      description: If the VM is SHUTOFF, tries to get it ACTIVE
+      parameters:
+      - description: Server ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.VirtualMachine'
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Starts a VM
+      tags:
+      - vms
+  /vms/:id/status:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the status of the VM then updates it in the DB
+      parameters:
+      - description: Server ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.VirtualMachine'
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Updates status of VM
+      tags:
+      - vms
+  /vms/:id/stop:
+    post:
+      consumes:
+      - application/json
+      description: If the VM is ACTIVE, tries to get it SHUTOFF
+      parameters:
+      - description: Server ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.VirtualMachine'
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Stops a VM
+      tags:
+      - vms
+  /vms/all:
+    get:
+      consumes:
+      - application/json
+      description: Gets all VMs
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.VirtualMachine'
+            type: array
+      summary: Retrieves list of all VMs from DB
+      tags:
+      - vms
+  /vms/canvas:
+    post:
+      consumes:
+      - application/json
+      description: Handles a request to create a new VM, for a student in a canvas
+        course.
+      parameters:
+      - description: Request Body
+        in: body
+        name: requestStruct
+        required: true
+        schema:
+          $ref: '#/definitions/v1.RequestBodyVmOrder'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/database.VirtualMachine'
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Creates a new VM
+      tags:
+      - vms
+  /vms/canvas/all:
+    post:
+      consumes:
+      - application/json
+      description: Handles a request to create a new VM, for all students in a canvas
+        course
+      parameters:
+      - description: Request Body
+        in: body
+        name: requestStruct
+        required: true
+        schema:
+          $ref: '#/definitions/v1.RequestBodyVmOrderAll'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.VirtualMachine'
+            type: array
+        "400":
+          description: Bad Request
+        "406":
+          description: Not Acceptable
+        "500":
+          description: Internal Server Error
+      summary: Creates a new VM
+      tags:
+      - vms
+swagger: "2.0"
